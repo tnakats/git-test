@@ -8,3 +8,7 @@ body.fixed {
 header {
   background-color: lightskyblue;
 }
+#submitBtn {
+  color: white;
+  background-color: blue;
+}
