@@ -3,10 +3,14 @@ html {
   font-family: sans-serif;
 }
 body.fixed {
-  width: 700px;
+  width: 700px; 
+  margin: auto;
 }
 header {
   background-color: lightskyblue;
+}
+h1 {
+  color: lightblue;
 }
 #submitBtn {
   color: white;
