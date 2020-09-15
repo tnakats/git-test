@@ -7,18 +7,35 @@ body.fixed {
   margin: auto;
 }
 header {
-  background-color: lightskyblue;
+  height: 60px;
+  width: 700px;
+  background-color: rgb(110,148,229);
 }
 h1 {
-  color: lightblue;
+  font-size: 24px;
+  font-family: 'Times New Roman', Times, serif;
+  text-align: center;
+  padding-top: 18px;
+  color:white;
 }
 #form {
+  padding-top: 10px;
   width: 450px;
+  float: left;
 }
 #related {
+  padding-top: 10px;
   width: 250px;
+  float: right;
 }
 #submitBtn {
   color: white;
   background-color: blue;
+  width: 100px;
+  height: 40px;
+  font-size: 18px;
+  border-radius: 15px;
+}
+a {
+  font-size: 12px;
 }
