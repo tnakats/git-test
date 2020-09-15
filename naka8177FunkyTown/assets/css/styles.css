@@ -14,13 +14,9 @@ h1 {
 }
 #form {
   width: 450px;
-  display: block;
-  float: left;
 }
 #related {
   width: 250px;
-  display: block;
-  float: right;
 }
 #submitBtn {
   color: white;
