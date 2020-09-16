@@ -18,6 +18,10 @@ h1 {
   padding-top: 18px;
   color:white;
 }
+div {
+  padding-top: 20px; 
+  width: 700px;
+}
 #form {
   padding-top: 10px;
   width: 450px;
@@ -34,7 +38,9 @@ h1 {
   width: 100px;
   height: 40px;
   font-size: 18px;
+  border: none;
   border-radius: 15px;
+  margin-left: 6px;
 }
 a {
   font-size: 12px;
