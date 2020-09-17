@@ -1,50 +1,77 @@
 <!DOCTYPE html>
-<html>
-<head>
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<style>
-* {
-  box-sizing: border-box;
-}
-
-/* Create two equal columns that floats next to each other */
-.column {
-  float: left;
-  width: 50%;
-  padding: 10px;
-  height: 300px; /* Should be removed. Only for demonstration */
-}
-
-/* Clear floats after the columns */
-.row:after {
-  content: "";
-  display: table;
-  clear: both;
-}
-
-/* Responsive layout - makes the two columns stack on top of each other instead of next to each other */
-@media screen and (max-width: 600px) {
-  .column {
-    width: 100%;
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <title>Funky Town Music</title>
+    <link rel="stylesheet" type="text/css" href="assets/css/styles.css"/>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+  </head>
+  <style>
+    * {
+    box-sizing: border-box;
   }
-}
-</style>
-</head>
-<body>
+    html {
+      max-width: 700px; 
+      margin: auto;
+    }
+    body {
+      width: 100%;
+    }
+    header {
+      width: 100%;
+    }
+    img {
+      width: 100%;
+    }
+  /* Clear floats after the columns */
+    .row:after {
+      content: "";
+      display: table;
+      clear: both;
+    }
 
-<h2>Responsive Two Column Layout</h2>
-<p>Resize the browser window to see the responsive effect (the columns will stack on top of each other instead of floating next to each other, when the screen is less than 600px wide).</p>
+    @media screen and (max-width: 700px) {
+      #form {
+        width: 100%;
+      }
+      #related {
+        width: 100%;
+      }
+    }
+  </style>
 
-<div class="row">
-  <div class="column" style="background-color:#aaa;">
-    <h2>Column 1</h2>
-    <p>Some text..</p>
-  </div>
-  <div class="column" style="background-color:#bbb;">
-    <h2>Column 2</h2>
-    <p>Some text..</p>
-  </div>
-</div>
+  <body>
+    <header>
+      <h1>Funky Town Music</h1>
+    </header>
+    <img width="700px" src="assets/img/soundwave.png" alt="Soundwave">
+    <div class="row">
+      <section id="form" class="column">
+        <h2>Sign On</h2>
+        <p>Enter your username and password to securely view and manage your music selection.</p>
+        <form action="https://example.com">
+          <input type="text" name="username" placeholder="Username">
+          <input type="password" name="password" placeholder="Password">
+          <br>
+          <br>
+          <input type="checkbox" name="saveName">
+          <label for="saveName">Save Username</label>
+          <p><a href="https://example.com">Forgot Password/Username?</a> | <a href="https://example.com">Enroll Now</a></p>
+          <button type="submit" id="submitBtn">Sign On</button>
+        </form>
+      </section>
+      <section id="related" class="column">
+        <hr>
+        <h3>Related Information</h3>
+        <ul>
+          <li><a href="https://example.com">Enrollment FAQs</a></li>
+          <li><a href="https://example.com">Online Security Guarentee</a></li>
+          <li><a href="https://example.com">Privacy, Security and Legal</a></li>
+          <li><a href="https://example.com">Online Access Agreement</a></li>
+        </ul>
+      </section>
+    </div>
+    
+  </body>
 
-</body>
 </html>
