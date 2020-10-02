@@ -26,6 +26,10 @@ header {
   flex: 33.3%;
    background-color: rgb(31,121,182);
 }
+canvas {
+  display: block;
+  margin: auto;
+}
 #currentTimeBtn {
   margin: 0 auto;
   display: block;
