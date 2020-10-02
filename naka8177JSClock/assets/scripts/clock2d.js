@@ -4,9 +4,6 @@ var canvasRight = document.getElementById("clockCanvasR");
 var contextLeft = canvasLeft.getContext("2d");
 var contextMiddle = canvasMiddle.getContext("2d");
 var contextRight = canvasRight.getContext("2d");
-
-var hourMarkLength = 20;
-var minuteMarkLength = hourMarkLength / 2;
 var hour, minutes, seconds;
 var handType
 
@@ -26,6 +23,7 @@ function drawClock(canvas, context) {
   context.arc(clockOriginX, clockOriginY, clockRadius, 0, 2 * Math.PI);
   context.stroke();
 
+  drawTime(canvas, context);
   //creates circle in middle of clock
   context.beginPath();
   context.arc(clockOriginX, clockOriginY, 5, 0, 2 * Math.PI);
@@ -48,11 +46,11 @@ function drawClock(canvas, context) {
      var markLength;
      if (i % 5 === 0) {
         context.lineWidth = 2;
-        markLength = clockOriginY - clockRadius + hourMarkLength;
+        markLength = clockOriginY - clockRadius + 20;
      }
      else {
         context.lineWidth = 1;
-        markLength = clockOriginY - clockRadius + minuteMarkLength;
+        markLength = clockOriginY - clockRadius + 10;
      }
 
      context.lineTo(clockOriginX, markLength);
@@ -60,6 +58,17 @@ function drawClock(canvas, context) {
      context.restore();
   }
 }
+
+function drawTime (canvas, context) {
+   var today = new Date();
+   hour = today.getHours() % 12;
+   minutes = today.getMinutes();
+   seconds = today.getSeconds();
+   console.log("drawTime");
+   drawHand (canvas, hour, context);
+   drawHand (canvas, minutes, context);
+   drawHand (canvas, seconds, context)
+ }
 
 function drawHand(canvas, handType, context) {
    var clockRadius = canvas.width / 2;
@@ -93,28 +102,14 @@ function drawHand(canvas, handType, context) {
       if (handType == seconds) {
          context.lineWidth = 1;
       }
-      context.lineTo(clockOriginX, clockOriginY - (clockRadius - 15));
+      context.lineTo(clockOriginX, clockOriginY - (clockRadius - 22));
    }
    context.stroke();
    context.restore();
-}
-
-function drawTime (canvas, context) {
-  var today = new Date();
-  hour = today.getHours() % 12;
-  minutes = today.getMinutes();
-  seconds = today.getSeconds();
-  console.log("drawTime");
-  drawHand (canvas, hour, context);
-  drawHand (canvas, minutes, context);
-  drawHand (canvas, seconds, context)
 }
 
 function drawClocks() {
    drawClock(canvasLeft, contextLeft);
    drawClock(canvasMiddle, contextMiddle);
    drawClock(canvasRight, contextRight);
-   drawTime(canvasLeft, contextLeft);
-   drawTime(canvasMiddle, contextMiddle);
-   drawTime(canvasRight, contextRight);
 }
