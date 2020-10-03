@@ -15,7 +15,9 @@ function drawClock(canvas, context) {
   var clockRadius = canvas.width / 2;
   var clockOriginX = canvas.width / 2;
   var clockOriginY = canvas.height / 2;
-
+  if (canvas.height > 300) {
+     return;
+  }
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   //creates outer circle of clock
@@ -23,15 +25,16 @@ function drawClock(canvas, context) {
   context.arc(clockOriginX, clockOriginY, clockRadius, 0, 2 * Math.PI);
   context.stroke();
 
+  if (canvas.width >= 250) {
+   drawNumbers(canvas, context);
+   context.translate(-clockOriginX, -clockOriginY);
+  }
   drawTime(canvas, context);
   //creates circle in middle of clock
   context.beginPath();
   context.arc(clockOriginX, clockOriginY, 5, 0, 2 * Math.PI);
   context.fill();
   context.stroke();
-
-  var startingMarkerX = clockOriginX;
-  var startingMarkerY = clockOriginY - clockRadius + 10;
 
   for (var i = 0; i < 60; i++) {
      context.save();
@@ -92,7 +95,7 @@ function drawHand(canvas, handType, context) {
    }
    context.strokeStyle = lineColor;
    context.fillStyle = lineColor;
-   context.moveTo(clockOriginX, clockOriginY);
+   context.moveTo(clockOriginX, clockOriginY + 20);
    if (handType == hour) {
       context.lineWidth = 5;
       context.lineTo(clockOriginX, (clockOriginY - clockRadius / 2));
@@ -107,6 +110,28 @@ function drawHand(canvas, handType, context) {
    context.stroke();
    context.restore();
 }
+
+function drawNumbers(canvas, context) {
+   var canvasRadius = canvas.width / 2;
+   var clockOriginX = canvas.width / 2;
+   var clockOriginY = canvas.height / 2;
+   var angle;
+   var hourNum;
+   context.translate(clockOriginX,clockOriginY);
+   context.font = canvasRadius*0.15 + "px arial";
+   context.textBaseline="middle";
+   context.textAlign="center";
+   for(hourNum = 1; hourNum < 13; hourNum++){
+     angle = hourNum * Math.PI / 6;
+     context.rotate(angle);
+     context.translate(0, -canvasRadius*0.75);
+     context.rotate(-angle);
+     context.fillText(hourNum.toString(), 0, 0);
+     context.rotate(angle);
+     context.translate(0, canvasRadius*0.75);
+     context.rotate(-angle);
+   }
+ }
 
 function drawClocks() {
    drawClock(canvasLeft, contextLeft);
