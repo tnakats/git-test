@@ -1,3 +1,11 @@
+/**************************************************************************
+File name:     clock2d.js
+Author:        Tyler Nakata 
+Date:          10/6/20
+Class:         CS360
+Assignment:    JSClock
+Purpose:       
+**************************************************************************/
 var canvasLeft = document.getElementById("clockCanvasL");
 var canvasMiddle = document.getElementById("clockCanvasM");
 var canvasRight = document.getElementById("clockCanvasR");
@@ -7,10 +15,20 @@ var contextRight = canvasRight.getContext("2d");
 var hour, minutes, seconds;
 var handType
 
-document.getElementById("currentTimeBtn").addEventListener("click", drawClocks);
+document.getElementById("currentTimeBtn").addEventListener("click", drawAllClocks);
 
-drawClocks();
+drawAllClocks();
 
+/**************************************************************************
+Function:      drawClock
+
+Description:   draws the full clock by calling drawNumbers and drawTime
+
+Parameters:    canvas   - the canvas we are drawing on
+               context  - the 2d context of the specific canvas
+
+Returned:      none
+**************************************************************************/
 function drawClock(canvas, context) {
   var clockRadius = canvas.width / 2;
   var clockOriginX = canvas.width / 2;
@@ -25,11 +43,15 @@ function drawClock(canvas, context) {
   context.arc(clockOriginX, clockOriginY, clockRadius, 0, 2 * Math.PI);
   context.stroke();
 
+  //prevents any clock 250px or smaller to show numbers
   if (canvas.width >= 250) {
    drawNumbers(canvas, context);
    context.translate(-clockOriginX, -clockOriginY);
   }
+
+  //draws hands before the circle in the middle
   drawTime(canvas, context);
+
   //creates circle in middle of clock
   context.beginPath();
   context.arc(clockOriginX, clockOriginY, 5, 0, 2 * Math.PI);
@@ -62,17 +84,38 @@ function drawClock(canvas, context) {
   }
 }
 
+/**************************************************************************
+Function:      drawTime
+
+Description:   gets the current time and calls drawHand for each hand
+
+Parameters:    canvas   - the canvas we are drawing on
+               context  - the 2d context of the specific canvas
+            
+Returned:      none
+**************************************************************************/
 function drawTime (canvas, context) {
    var today = new Date();
    hour = today.getHours() % 12;
    minutes = today.getMinutes();
    seconds = today.getSeconds();
-   console.log("drawTime");
    drawHand (canvas, hour, context);
    drawHand (canvas, minutes, context);
    drawHand (canvas, seconds, context)
  }
 
+/**************************************************************************
+Function:      drawHand
+
+Description:   draws a specific hand of the clock
+
+Parameters:    canvas   - the canvas we are drawing on
+               handType - the type of hand that is being drawn (hour, minutes,
+                       or seconds)
+               context  - the 2d context of the specific canvas
+            
+Returned:      none
+**************************************************************************/
 function drawHand(canvas, handType, context) {
    var clockRadius = canvas.width / 2;
    var clockOriginX = canvas.width / 2;
@@ -89,12 +132,13 @@ function drawHand(canvas, handType, context) {
    context.translate(-clockOriginX, -clockOriginY);
 
    context.beginPath();
-   var lineColor = "teal";
+   var lineColor = "rgb(60,137,138)";
    if (handType == seconds) {
       lineColor = "black";
    }
    context.strokeStyle = lineColor;
    context.fillStyle = lineColor;
+   //this moveTo allows us to draw the line past the centerpoint
    context.moveTo(clockOriginX, clockOriginY + 20);
    if (handType == hour) {
       context.lineWidth = 5;
@@ -111,30 +155,53 @@ function drawHand(canvas, handType, context) {
    context.restore();
 }
 
+/**************************************************************************
+Function:      drawNumbers
+
+Description:   draws the numbers vertically on the clock
+
+Parameters:    canvas   - the canvas we are drawing the on
+               context  - the 2d context of the specific canvas
+            
+Returned:      none
+**************************************************************************/
 function drawNumbers(canvas, context) {
    var canvasRadius = canvas.width / 2;
    var clockOriginX = canvas.width / 2;
    var clockOriginY = canvas.height / 2;
-   var angle;
+   var calculateRotate;
    var hourNum;
    context.translate(clockOriginX,clockOriginY);
-   context.font = canvasRadius*0.15 + "px arial";
+   context.font = canvasRadius*0.2 + "px times new roman";
    context.textBaseline="middle";
    context.textAlign="center";
    for(hourNum = 1; hourNum < 13; hourNum++){
-     angle = hourNum * Math.PI / 6;
-     context.rotate(angle);
-     context.translate(0, -canvasRadius*0.75);
-     context.rotate(-angle);
+     calculateRotate = hourNum * Math.PI / 6;
+     context.rotate(calculateRotate);
+     context.translate(0, -canvasRadius*0.7);
+     context.rotate(-calculateRotate);
      context.fillText(hourNum.toString(), 0, 0);
-     context.rotate(angle);
-     context.translate(0, canvasRadius*0.75);
-     context.rotate(-angle);
+     context.rotate(calculateRotate);
+     context.translate(0, canvasRadius*0.7);
+     context.rotate(-calculateRotate);
    }
  }
 
-function drawClocks() {
+/**************************************************************************
+Function:      drawAllClocks
+
+Description:   draws all three clocks to allow for a singluar callback 
+               function
+
+Parameters:    none
+Returned:      none
+**************************************************************************/
+function drawAllClocks() {
+   console.log("Time updated");
    drawClock(canvasLeft, contextLeft);
+   console.log("Left clock drawn");
    drawClock(canvasMiddle, contextMiddle);
+   console.log("Middle clock drawn");
    drawClock(canvasRight, contextRight);
+   console.log("Right clock drawn");
 }

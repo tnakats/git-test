@@ -40,7 +40,7 @@ canvas {
   color: #fff;
 }
 
-@media screen and (max-width: 750px) {
+@media screen and (max-width: 749px) {
   #container {
     flex-direction: column;
     height: 900px;
