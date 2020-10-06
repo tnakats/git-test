@@ -9,9 +9,8 @@ Purpose:
 var canvasLeft = document.getElementById("clockCanvasL");
 var canvasMiddle = document.getElementById("clockCanvasM");
 var canvasRight = document.getElementById("clockCanvasR");
-var contextLeft = canvasLeft.getContext("2d");
-var contextMiddle = canvasMiddle.getContext("2d");
-var contextRight = canvasRight.getContext("2d");
+var context;
+var canvas;
 var hour, minutes, seconds;
 var handType
 
@@ -21,21 +20,18 @@ drawAllClocks();
 
 /**************************************************************************
 Function:      drawClock
-
 Description:   draws the full clock by calling drawNumbers and drawTime
-
 Parameters:    canvas   - the canvas we are drawing on
-               context  - the 2d context of the specific canvas
-
 Returned:      none
 **************************************************************************/
-function drawClock(canvas, context) {
+function clock2d(canvas) {
   var clockRadius = canvas.width / 2;
   var clockOriginX = canvas.width / 2;
   var clockOriginY = canvas.height / 2;
-  if (canvas.height > 300) {
+  context = canvas.getContext("2d");
+  if (canvas.height > 300 || canvas.height < 100) {
      return;
-  }
+     }
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   //creates outer circle of clock
@@ -86,9 +82,7 @@ function drawClock(canvas, context) {
 
 /**************************************************************************
 Function:      drawTime
-
 Description:   gets the current time and calls drawHand for each hand
-
 Parameters:    canvas   - the canvas we are drawing on
                context  - the 2d context of the specific canvas
             
@@ -106,12 +100,10 @@ function drawTime (canvas, context) {
 
 /**************************************************************************
 Function:      drawHand
-
 Description:   draws a specific hand of the clock
-
 Parameters:    canvas   - the canvas we are drawing on
                handType - the type of hand that is being drawn (hour, minutes,
-                       or seconds)
+                           or seconds)
                context  - the 2d context of the specific canvas
             
 Returned:      none
@@ -157,9 +149,7 @@ function drawHand(canvas, handType, context) {
 
 /**************************************************************************
 Function:      drawNumbers
-
 Description:   draws the numbers vertically on the clock
-
 Parameters:    canvas   - the canvas we are drawing the on
                context  - the 2d context of the specific canvas
             
@@ -189,19 +179,17 @@ function drawNumbers(canvas, context) {
 
 /**************************************************************************
 Function:      drawAllClocks
-
 Description:   draws all three clocks to allow for a singluar callback 
                function
-
 Parameters:    none
 Returned:      none
 **************************************************************************/
 function drawAllClocks() {
    console.log("Time updated");
-   drawClock(canvasLeft, contextLeft);
+   clock2d(canvasLeft);
    console.log("Left clock drawn");
-   drawClock(canvasMiddle, contextMiddle);
+   clock2d(canvasMiddle);
    console.log("Middle clock drawn");
-   drawClock(canvasRight, contextRight);
+   clock2d(canvasRight);
    console.log("Right clock drawn");
 }
