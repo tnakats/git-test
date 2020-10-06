@@ -31,7 +31,7 @@ function clock2d(canvas) {
   context = canvas.getContext("2d");
   if (canvas.height > 300 || canvas.height < 100) {
      return;
-     }
+   }
   context.clearRect(0, 0, canvas.width, canvas.height);
 
   //creates outer circle of clock
@@ -103,7 +103,7 @@ Function:      drawHand
 Description:   draws a specific hand of the clock
 Parameters:    canvas   - the canvas we are drawing on
                handType - the type of hand that is being drawn (hour, minutes,
-                           or seconds)
+                          or seconds)
                context  - the 2d context of the specific canvas
             
 Returned:      none
