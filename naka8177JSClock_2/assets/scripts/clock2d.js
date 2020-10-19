@@ -12,9 +12,9 @@ var canvasRight = document.getElementById("clockCanvasR");
 var context;
 var canvas;
 var hour, minutes, seconds;
-var handType
+var handType;
+var hourDif;
 
-document.getElementById("currentTimeBtn").addEventListener("click", drawAllClocks);
 
 drawAllClocks();
 
@@ -24,7 +24,7 @@ Description:   draws the full clock by calling drawNumbers and drawTime
 Parameters:    canvas   - the canvas we are drawing on
 Returned:      none
 **************************************************************************/
-function clock2d(canvas) {
+function clock2d(canvas, hourDif) {
   var clockRadius = canvas.width / 2;
   var clockOriginX = canvas.width / 2;
   var clockOriginY = canvas.height / 2;
@@ -46,7 +46,7 @@ function clock2d(canvas) {
   }
 
   //draws hands before the circle in the middle
-  drawTime(canvas, context);
+  drawTime(canvas, context, hourDif);
 
   //creates circle in middle of clock
   context.beginPath();
@@ -88,9 +88,10 @@ Parameters:    canvas   - the canvas we are drawing on
             
 Returned:      none
 **************************************************************************/
-function drawTime (canvas, context) {
+function drawTime (canvas, context, hourDif) {
    var today = new Date();
    hour = today.getHours() % 12;
+   hour += hourDif;
    minutes = today.getMinutes();
    seconds = today.getSeconds();
    drawHand (canvas, hour, context);
@@ -186,10 +187,10 @@ Returned:      none
 **************************************************************************/
 function drawAllClocks() {
    console.log("Time updated");
-   clock2d(canvasLeft);
+   clock2d(canvasLeft, 0);
    console.log("Left clock drawn");
-   clock2d(canvasMiddle);
+   clock2d(canvasMiddle, 1);
    console.log("Middle clock drawn");
-   clock2d(canvasRight);
+   clock2d(canvasRight, 2);
    console.log("Right clock drawn");
 }

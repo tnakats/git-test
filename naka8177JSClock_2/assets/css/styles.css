@@ -2,28 +2,38 @@ body {
   margin: auto;
 }
 header {
-  text-align: center;
+  text-align: left;
   background-color: rgb(182,31,157);
   color: #fff;
   font-family: "Open Sans", sans-serif;
   font-size: 18px;
   padding: 10px 0;
 }
+#clock {
+  float: right;
+  margin-right: 20px;
+  padding-top: 4px;
+  font-size: 12px;
+}
+
 #container {
   display: flex;
   flex-direction: row;
   height: 300px;
 }
+#left, #middle, #right {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  flex: 33.3%
+}
 #left {
-  flex: 33.3%;
   background-color: rgb(107,199,64);
 }
 #middle {
-  flex: 33.3%;
   background-color: rgb(34,180,185);
 }
 #right {
-  flex: 33.3%;
    background-color: rgb(31,121,182);
 }
 canvas {
