@@ -1,0 +1,49 @@
+body {
+  margin: auto;
+}
+header {
+  text-align: center;
+  background-color: rgb(182,31,157);
+  color: #fff;
+  font-family: "Open Sans", sans-serif;
+  font-size: 18px;
+  padding: 10px 0;
+}
+#container {
+  display: flex;
+  flex-direction: row;
+  height: 300px;
+}
+#left {
+  flex: 33.3%;
+  background-color: rgb(107,199,64);
+}
+#middle {
+  flex: 33.3%;
+  background-color: rgb(34,180,185);
+}
+#right {
+  flex: 33.3%;
+   background-color: rgb(31,121,182);
+}
+canvas {
+  display: block;
+  margin: auto;
+}
+#currentTimeBtn {
+  margin: 0 auto;
+  display: block;
+  width: 150px;
+  height: 40px;
+  border-radius: 15px;
+  background-color: rgb(182,31,157);
+  color: #fff;
+}
+
+@media screen and (max-width: 749px) {
+  #container {
+    flex-direction: column;
+    height: 900px;
+    
+  }
+}
