@@ -11,17 +11,25 @@ var canvasMiddle = document.getElementById("clockCanvasM");
 var canvasRight = document.getElementById("clockCanvasR");
 var context;
 var canvas;
-var hour, minutes, seconds;
-var handType;
+var hour, minutes, seconds, milliseconds;
+var handType, handValue;
 var hourDif;
+var clockStyle = document.getElementById("clockStyle");
 
+document.getElementById("clockStyle").addEventListener("click", changeClock);
 
 drawAllClocks();
+updateClocks();
+
+
+
+
 
 /**************************************************************************
-Function:      drawClock
+Function:      clock2d
 Description:   draws the full clock by calling drawNumbers and drawTime
 Parameters:    canvas   - the canvas we are drawing on
+               hourDif  - the change in hours based on time zone
 Returned:      none
 **************************************************************************/
 function clock2d(canvas, hourDif) {
@@ -85,6 +93,7 @@ Function:      drawTime
 Description:   gets the current time and calls drawHand for each hand
 Parameters:    canvas   - the canvas we are drawing on
                context  - the 2d context of the specific canvas
+               hourDif  - the change in hours based on time zone
             
 Returned:      none
 **************************************************************************/
@@ -94,9 +103,10 @@ function drawTime (canvas, context, hourDif) {
    hour += hourDif;
    minutes = today.getMinutes();
    seconds = today.getSeconds();
-   drawHand (canvas, hour, context);
-   drawHand (canvas, minutes, context);
-   drawHand (canvas, seconds, context)
+   milliseconds = today.getMilliseconds();
+   drawHand (canvas, "hour", hour, context);
+   drawHand (canvas, "minutes", minutes, context);
+   drawHand (canvas, "seconds", seconds, context);
  }
 
 /**************************************************************************
@@ -109,37 +119,39 @@ Parameters:    canvas   - the canvas we are drawing on
             
 Returned:      none
 **************************************************************************/
-function drawHand(canvas, handType, context) {
+function drawHand(canvas, handType, handValue, context) {
    var clockRadius = canvas.width / 2;
    var clockOriginX = canvas.width / 2;
    var clockOriginY = canvas.height / 2;
+   var lineColor = "rgb(60,137,138)";
+
+   if (handType == "seconds") {
+      lineColor = "black";
+   }
+   
    context.save();
    context.translate(clockOriginX, clockOriginY);
-   if (handType == hour) {
-      var calculateRotate = (Math.PI / 180) * (360 / 12) * (handType % 12);
+   if (handType == "hour") {
+      var calculateRotate = (Math.PI / 180) * (360 / 12) * (handValue % 12);
    }
    else {
-      var calculateRotate = (Math.PI / 180) * (360 / 60) * (handType % 60);
+      var calculateRotate = (Math.PI / 180) * (360 / 60) * (handValue % 60);
    }
    context.rotate(calculateRotate);
    context.translate(-clockOriginX, -clockOriginY);
 
    context.beginPath();
-   var lineColor = "rgb(60,137,138)";
-   if (handType == seconds) {
-      lineColor = "black";
-   }
    context.strokeStyle = lineColor;
    context.fillStyle = lineColor;
    //this moveTo allows us to draw the line past the centerpoint
    context.moveTo(clockOriginX, clockOriginY + 20);
-   if (handType == hour) {
+   if (handType == "hour") {
       context.lineWidth = 5;
       context.lineTo(clockOriginX, (clockOriginY - clockRadius / 2));
    }
    else {
       context.lineWidth = 4;
-      if (handType == seconds) {
+      if (handType == "seconds") {
          context.lineWidth = 1;
       }
       context.lineTo(clockOriginX, clockOriginY - (clockRadius - 22));
@@ -186,11 +198,39 @@ Parameters:    none
 Returned:      none
 **************************************************************************/
 function drawAllClocks() {
-   console.log("Time updated");
    clock2d(canvasLeft, 0);
-   console.log("Left clock drawn");
    clock2d(canvasMiddle, 1);
-   console.log("Middle clock drawn");
    clock2d(canvasRight, 2);
-   console.log("Right clock drawn");
+}
+
+/**************************************************************************
+Function:      changeClock
+Description:   changes DIGITAL to ANALOG and vice versa
+Parameters:    none
+Returned:      none
+**************************************************************************/
+function changeClock() {
+   var clockStyle = document.getElementById("clockStyle");
+
+   if(clockStyle.innerHTML == "DIGITAL") {
+      clockStyle.innerHTML = "ANALOG";
+   }
+   else if (clockStyle.innerHTML == "ANALOG") {
+      clockStyle.innerHTML = "DIGITAL";
+   }
+}
+
+/**************************************************************************
+Function:      changeClock
+Description:   changes DIGITAL to ANALOG and vice versa
+Parameters:    none
+Returned:      none
+**************************************************************************/
+function updateClocks(context, milliseconds) {
+   
+   if (clockStyle.innerHTML == "DIGITAL") {
+      setInterval (drawAllClocks, 1000 - milliseconds);
+      clearInterval();
+      setInterval(drawAllClocks,1000);
+   }
 }
