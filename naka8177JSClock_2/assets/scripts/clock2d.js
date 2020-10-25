@@ -17,10 +17,9 @@ var hourDif;
 var clockStyle = document.getElementById("clockStyle");
 
 document.getElementById("clockStyle").addEventListener("click", changeClock);
-
+document.getElementById("clockStyle").addEventListener("click", updateSeconds);
 drawAllClocks();
-updateClocks();
-
+updateSeconds();
 
 
 
@@ -133,9 +132,20 @@ function drawHand(canvas, handType, handValue, context) {
    context.translate(clockOriginX, clockOriginY);
    if (handType == "hour") {
       var calculateRotate = (Math.PI / 180) * (360 / 12) * (handValue % 12);
+      calculateRotate += (Math.PI / 180) * (360 / 43200) * (seconds);
+   }
+   else if (handType == "minutes"){
+      var calculateRotate = (Math.PI / 180) * (360 / 60) * (handValue % 60);
+      calculateRotate += (Math.PI / 180) * (360 / 3600) * (seconds);
    }
    else {
-      var calculateRotate = (Math.PI / 180) * (360 / 60) * (handValue % 60);
+      if (handType == "seconds" && clockStyle.innerHTML == "DIGITAL") {
+         var calculateRotate = (Math.PI / 180) * (360 / 60) * (handValue % 60);
+      }
+      else {
+         var calculateRotate = (Math.PI / 180) * (360 / 60) * (handValue % 60);
+         calculateRotate+= (Math.PI / 180) * (360 / 1440) * (milliseconds / 41.6);
+      }
    }
    context.rotate(calculateRotate);
    context.translate(-clockOriginX, -clockOriginY);
@@ -201,6 +211,7 @@ function drawAllClocks() {
    clock2d(canvasLeft, 0);
    clock2d(canvasMiddle, 1);
    clock2d(canvasRight, 2);
+   document.getElementById("clockStyle").addEventListener("click", updateSeconds(milliseconds));
 }
 
 /**************************************************************************
@@ -226,11 +237,17 @@ Description:   changes DIGITAL to ANALOG and vice versa
 Parameters:    none
 Returned:      none
 **************************************************************************/
-function updateClocks(context, milliseconds) {
-   
+function updateSeconds(milliseconds) {
+   var intervalID;
    if (clockStyle.innerHTML == "DIGITAL") {
-      setInterval (drawAllClocks, 1000 - milliseconds);
-      clearInterval();
-      setInterval(drawAllClocks,1000);
+      clearInterval (intervalID);
+      intervalID = setInterval (drawAllClocks, 1000 - milliseconds);
+
    }
+   if (clockStyle.innerHTML == "ANALOG") {
+      clearInterval (intervalID);
+      intervalID = setInterval(drawAllClocks, 41.6);
+   }
+   
+
 }
